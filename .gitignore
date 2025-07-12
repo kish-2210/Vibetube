@@ -1,0 +1,83 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Diagnostic reports
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage reports
+coverage
+*.lcov
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+bower_components
+web_modules/
+
+# Build directories
+build/
+dist/
+.next
+out
+.nuxt
+.vuepress/dist
+
+# Caches
+.cache
+.parcel-cache
+.rpt2_cache/
+.rts2_cache_*
+.fusebox/
+.dynamodb/
+
+# TypeScript
+*.tsbuildinfo
+
+# Optional npm/yarn files
+.npm
+.yarn-integrity
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+.pnp.js
+
+# ESLint
+.eslintcache
+
+# REPL history
+.node_repl_history
+
+# VS Code
+.vscode-test
+
+# System
+.DS_Store
+
+# Environment variables
+.env*
+!.env.example     # keep example env for reference
+
+# Output of `npm pack`
+*.tgz
+
+# Yarn v2 Plug'n'Play
+.pnp.*
+
+# Custom lock/config files
+.lock-wscript
+.tern-port
