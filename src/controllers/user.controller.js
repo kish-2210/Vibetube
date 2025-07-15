@@ -15,12 +15,17 @@ const registerUser = asyncHandler(async (req, res) => {
 
     }
     // check idf user already exist: username,email
-    const existingUser = User.findOne({ $or: [{ username }, { email }] })
+    const existingUser = await User.findOne({ $or: [{ username }, { email }] })
     if (existingUser) throw new ApiError(409, "User with email or username already exist")
 
     // check for images and avatar
-    const avatarLocalPath = req.files?.avatar[0]?.path;       //res.files-from mutler middleware
-    const coverImageLocalPath = req.files?.coverImage[0]?.path
+    const avatarLocalPath = req.files?.avatar[0]?.path; //res.files-from mutler middleware
+    // const coverImageLocalPath = req.files?.coverImage[0]?.path
+
+    let coverImageLocalPath;
+    if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0 ){
+        coverImageLocalPath = req.files.coverImage[0].path
+    }
 
     if (!avatarLocalPath) throw new ApiError(400, "Avatar file is required")
 
@@ -52,7 +57,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     // return response or error
     return res.status(201).json(
-        new ApiResponse(200, creadtedUser, "User registered successfully")
+        new ApiResponse(200, createdUser, "User registered successfully")
     )
 
 })
