@@ -1,11 +1,11 @@
 import mongoose, { Schema } from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { ACCESS_TOKEN_SECRET,ACCESS_TOKEN_EXPIRY,REFRESH_TOKEN_SECRET,REFRESH_TOKEN_EXPIRY} from "../../config/env.js";
+import { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_EXPIRY, REFRESH_TOKEN_SECRET, REFRESH_TOKEN_EXPIRY } from "../../config/env.js";
 
 const userSchema = new Schema(
     {
-        username:{
+        username: {
             type: String,
             required: true,
             unique: true,
@@ -22,7 +22,7 @@ const userSchema = new Schema(
             trim: true,
         },
 
-        fullName:{
+        fullName: {
             type: String,
             required: true,
             index: true,
@@ -37,19 +37,19 @@ const userSchema = new Schema(
             type: String,
         },
 
-        watchHistory:[
+        watchHistory: [
             {
                 type: Schema.Types.ObjectId,
-                ref:"Video "
+                ref: "Video "
             }
         ],
 
-        password:{
-            type:String,
+        password: {
+            type: String,
             require: [true, 'Password is required']
         },
 
-        refreshToken:{
+        refreshToken: {
             type: String,
         }
     },
@@ -58,23 +58,23 @@ const userSchema = new Schema(
     }
 )
 
-userSchema.pre("save", async function(next){
-    if(!this.isModified("password")) return next();
-    this.password = bcrypt.hash(this.password,10)
+userSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) return next();
+    this.password = await bcrypt.hash(this.password, 10)
     next()
 })
 
-userSchema.methods.isPasswordCorrect = async function(password){
-  return await bcrypt.compare(password,this.password)
+userSchema.methods.isPasswordCorrect = async function (password) {
+    return await bcrypt.compare(password, this.password)
 }
 
-userSchema.methods.generateAcessToken = function (){
+userSchema.methods.generateAcessToken = function () {
     return jwt.sign(
         {
             _id: this._id,
             email: this.email,
-            username : this.username,
-            fullName : this.fullName
+            username: this.username,
+            fullName: this.fullName
         },
         ACCESS_TOKEN_SECRET,
         {
@@ -83,7 +83,7 @@ userSchema.methods.generateAcessToken = function (){
 
     )
 }
-userSchema.methods.generateRefreshToken = function (){
+userSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
         {
             _id: this._id
